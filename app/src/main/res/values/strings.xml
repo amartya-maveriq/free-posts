@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Free Posts</string>
+    <string name="post_author">by user %s</string>
 </resources>
