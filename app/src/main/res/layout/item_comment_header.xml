@@ -67,13 +67,26 @@
         tools:text="illum quis cupiditate provident sit magnam\nea sed aut omnis\nveniam maiores ullam consequatur atque\nadipisci quo iste expedita sit quos voluptas" />
 
     <View
+        android:id="@+id/line"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
         android:alpha="0.9"
         android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/guide_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_body" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_comment_header"
+        android:text="@string/comments"
+        android:layout_marginTop="12dp"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintStart_toStartOf="@id/guide_left"
+        app:layout_constraintBottom_toTopOf="@id/guide_bottom" />
 </androidx.constraintlayout.widget.ConstraintLayout>

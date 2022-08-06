@@ -37,6 +37,11 @@ class PostDetailsFragment: Fragment(R.layout.fragment_post_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPostDetailsBinding.bind(view)
 
+        binding.toolbar.apply {
+            title = args.post.title
+            setNavigationOnClickListener { requireActivity().onBackPressed() }
+        }
+
         binding.rvComments.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@PostDetailsFragment.adapter

@@ -18,7 +18,6 @@ import com.assignment.freeposts.presentation.uistate.UiState
 import com.assignment.freeposts.presentation.view_models.PostsViewModel
 import com.assignment.freeposts.utils.reset
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -34,17 +33,19 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentShowPostsBinding.bind(view)
+        binding.toolbar.title = getString(R.string.app_name)
         binding.rvPosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@ShowPostsFragment.adapter
         }
+        viewModel.fetchPosts()
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
                     when (it) {
                         is UiState.Success -> {
                             (it.result as List<*>).filterIsInstance<Post>().also { posts ->

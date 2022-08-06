@@ -21,10 +21,6 @@ class PostsViewModel @Inject constructor(
     private val getPostDetails: GetPostDetails
 ): ViewModel() {
 
-    init {
-        fetchPosts()
-    }
-
     val uiState = MutableStateFlow<UiState>(UiState.Idle)
 
     fun fetchPosts() {
