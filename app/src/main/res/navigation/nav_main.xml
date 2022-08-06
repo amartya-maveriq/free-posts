@@ -18,5 +18,9 @@
         android:id="@+id/postDetailsFragment"
         android:name="com.assignment.freeposts.presentation.views.PostDetailsFragment"
         android:label="fragment_post_details"
-        tools:layout="@layout/fragment_post_details" />
+        tools:layout="@layout/fragment_post_details" >
+        <argument
+            android:name="post"
+            app:argType="com.assignment.freeposts.data.models.Post" />
+    </fragment>
 </navigation>

@@ -51,7 +51,7 @@ class PostsAdapter(
                 String.format(binding.root.context.getString(R.string.post_author), post.userId)
             binding.tvBody.text = post.body
             binding.root.clickWithDebounce {
-                listener.onPostClicked(post.id)
+                listener.onPostClicked(post)
             }
         }
     }

@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.assignment.freeposts.R
 import com.assignment.freeposts.databinding.ActivityPostsBinding
 import com.assignment.freeposts.presentation.uistate.UiState
 import com.assignment.freeposts.presentation.view_models.PostsViewModel
@@ -32,7 +31,7 @@ class PostsActivity : AppCompatActivity() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.posts.collectLatest {
+                viewModel.uiState.collectLatest {
                     when (it) {
                         is UiState.Idle -> binding.progressBar.isVisible = false
                         is UiState.Loading -> binding.progressBar.isVisible = true

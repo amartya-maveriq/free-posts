@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.assignment.freeposts.R
 import com.assignment.freeposts.data.models.Post
@@ -43,7 +44,7 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.posts.collectLatest {
+                viewModel.uiState.collectLatest {
                     when (it) {
                         is UiState.Success -> {
                             (it.result as List<*>).filterIsInstance<Post>().also { posts ->
@@ -59,13 +60,14 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
                         }
                         else -> Unit
                     }
-                    viewModel.posts.reset()
+                    viewModel.uiState.reset()
                 }
             }
         }
     }
 
-    override fun onPostClicked(postId: Int) {
-        println("Clicked $postId")
+    override fun onPostClicked(post: Post) {
+        requireView().findNavController()
+            .navigate(ShowPostsFragmentDirections.actionShowPostsFragmentToPostDetailsFragment(post))
     }
 }

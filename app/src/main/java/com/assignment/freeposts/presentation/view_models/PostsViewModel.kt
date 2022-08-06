@@ -25,15 +25,26 @@ class PostsViewModel @Inject constructor(
         fetchPosts()
     }
 
-    val posts = MutableStateFlow<UiState>(UiState.Idle)
+    val uiState = MutableStateFlow<UiState>(UiState.Idle)
 
     fun fetchPosts() {
         viewModelScope.launch {
-            posts.value = UiState.Loading
+            uiState.value = UiState.Loading
             runCatching {
-                posts.value = UiState.Success(getPosts())
+                uiState.value = UiState.Success(getPosts())
             }.onFailure {
-                posts.value = UiState.Error(it.cause)
+                uiState.value = UiState.Error(it.cause)
+            }
+        }
+    }
+
+    fun fetchPostDetails(postId: Int) {
+        viewModelScope.launch {
+            uiState.value = UiState.Loading
+            runCatching {
+                uiState.value = UiState.Success(getPostDetails(postId))
+            }.onFailure {
+                uiState.value = UiState.Error(it.cause)
             }
         }
     }
