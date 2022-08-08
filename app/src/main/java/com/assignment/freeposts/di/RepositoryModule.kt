@@ -1,5 +1,6 @@
 package com.assignment.freeposts.di
 
+import com.assignment.freeposts.data.db.PostsDao
 import com.assignment.freeposts.data.network.PostApiService
 import com.assignment.freeposts.data.repository.PostRepository
 import com.assignment.freeposts.data.repository.PostRepositoryImpl
@@ -20,6 +21,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun providePostRepo(apiService: PostApiService): PostRepository =
-        PostRepositoryImpl(apiService)
+    fun providePostRepo(apiService: PostApiService, postsDao: PostsDao): PostRepository =
+        PostRepositoryImpl(apiService, postsDao)
 }

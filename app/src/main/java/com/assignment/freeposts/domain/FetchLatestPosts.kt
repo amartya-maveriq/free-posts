@@ -6,12 +6,11 @@ import javax.inject.Inject
 
 
 /**
- * Created by Amartya Ganguly on 05/08/22.
+ * Created by Amartya Ganguly on 07/08/22.
  */
-class GetPosts @Inject constructor(
+class FetchLatestPosts @Inject constructor(
     private val repository: PostRepository
 ) {
-    suspend operator fun invoke(): List<Post> {
-        return repository.getPosts()
-    }
+    suspend operator fun invoke(): List<Post> =
+        repository.fetchPosts()
 }

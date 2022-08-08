@@ -1,6 +1,7 @@
 package com.assignment.freeposts.di
 
 import com.assignment.freeposts.data.repository.PostRepository
+import com.assignment.freeposts.domain.FetchLatestPosts
 import com.assignment.freeposts.domain.GetPostDetails
 import com.assignment.freeposts.domain.GetPosts
 import dagger.Module
@@ -27,4 +28,9 @@ object DomainModule {
     @Singleton
     fun providePostDetails(repository: PostRepository) =
         GetPostDetails(repository)
+
+    @Provides
+    @Singleton
+    fun provideFetchPosts(repository: PostRepository) =
+        FetchLatestPosts(repository)
 }

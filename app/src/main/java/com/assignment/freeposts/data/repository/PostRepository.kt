@@ -12,4 +12,6 @@ interface PostRepository {
     suspend fun fetchPosts(): List<Post>
 
     suspend fun fetchPostDetails(postId: Int): List<Comment>
+
+    suspend fun getPosts(): List<Post>
 }

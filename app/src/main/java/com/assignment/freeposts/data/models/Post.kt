@@ -1,12 +1,15 @@
 package com.assignment.freeposts.data.models
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
 data class Post(
+    @PrimaryKey val id: Int = 0,
     val body: String = "",
-    val id: Int = 0,
     val title: String = "",
     val userId: Int = 0
 ): Parcelable

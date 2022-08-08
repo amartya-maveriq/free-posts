@@ -21,7 +21,10 @@ class PostsAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(posts: List<Post>) {
-        this.posts.addAll(posts)
+        this.posts.apply {
+            clear()
+            addAll(posts)
+        }
         notifyDataSetChanged()
     }
 

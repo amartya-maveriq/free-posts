@@ -2,6 +2,7 @@ package com.assignment.freeposts.presentation.views
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -52,12 +53,16 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
                                 if (posts.isNotEmpty()) {
                                     adapter.setItems(posts)
                                 } else {
-                                    // todo show no posts
+                                    Toast.makeText(
+                                        requireContext(), "No posts to display", Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
                         is UiState.Error -> {
-                            println(it.exception?.message)
+                            Toast.makeText(
+                                requireContext(), it.exception?.message, Toast.LENGTH_SHORT
+                            ).show()
                         }
                         else -> Unit
                     }
