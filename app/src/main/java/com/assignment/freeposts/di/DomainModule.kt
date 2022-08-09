@@ -4,6 +4,7 @@ import com.assignment.freeposts.data.repository.PostRepository
 import com.assignment.freeposts.domain.FetchLatestPosts
 import com.assignment.freeposts.domain.GetPostDetails
 import com.assignment.freeposts.domain.GetPosts
+import com.assignment.freeposts.domain.SearchPost
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +34,9 @@ object DomainModule {
     @Singleton
     fun provideFetchPosts(repository: PostRepository) =
         FetchLatestPosts(repository)
+
+    @Provides
+    @Singleton
+    fun provideSearchPosts(repository: PostRepository) =
+        SearchPost(repository)
 }

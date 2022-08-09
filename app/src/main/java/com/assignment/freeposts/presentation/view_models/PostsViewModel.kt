@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.assignment.freeposts.domain.FetchLatestPosts
 import com.assignment.freeposts.domain.GetPostDetails
 import com.assignment.freeposts.domain.GetPosts
+import com.assignment.freeposts.domain.SearchPost
 import com.assignment.freeposts.presentation.uistate.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(
     private val getPosts: GetPosts,
     private val getPostDetails: GetPostDetails,
-    private val fetchLatest: FetchLatestPosts
+    private val fetchLatest: FetchLatestPosts,
+    private val searchPost: SearchPost
 ) : ViewModel() {
 
     val uiState = MutableStateFlow<UiState>(UiState.Idle)
@@ -55,6 +57,17 @@ class PostsViewModel @Inject constructor(
             uiState.value = UiState.Loading
             runCatching {
                 uiState.value = UiState.Success(getPostDetails(postId))
+            }.onFailure {
+                uiState.value = UiState.Error(it.cause)
+            }
+        }
+    }
+
+    fun performSearch(searchText: String) {
+        viewModelScope.launch {
+            uiState.value = UiState.Loading
+            runCatching {
+                uiState.value = UiState.Success(searchPost(searchText))
             }.onFailure {
                 uiState.value = UiState.Error(it.cause)
             }

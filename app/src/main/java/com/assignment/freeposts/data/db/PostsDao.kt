@@ -20,4 +20,7 @@ interface PostsDao {
 
     @Query("DELETE FROM Post")
     fun deleteAll()
+
+    @Query("SELECT * FROM Post WHERE title LIKE '%'|| :searchTerm || '%'")
+    fun searchPosts(searchTerm: String): List<Post>
 }

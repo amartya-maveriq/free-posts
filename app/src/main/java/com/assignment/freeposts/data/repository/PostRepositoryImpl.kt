@@ -34,6 +34,10 @@ class PostRepositoryImpl @Inject constructor(
         postsDao.getAll()
     }
 
+    override suspend fun getPosts(searchTerm: String): List<Post> = withContext(IO) {
+        postsDao.searchPosts(searchTerm)
+    }
+
     override suspend fun fetchPostDetails(postId: Int): List<Comment> = withContext(IO) {
         postApiService.fetchPostDetails(postId)
     }

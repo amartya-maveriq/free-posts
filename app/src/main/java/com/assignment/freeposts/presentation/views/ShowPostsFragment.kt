@@ -1,8 +1,11 @@
 package com.assignment.freeposts.presentation.views
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -31,10 +34,25 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
     private lateinit var binding: FragmentShowPostsBinding
     private val viewModel: PostsViewModel by activityViewModels()
     private val adapter: PostsAdapter by lazy { PostsAdapter(listener = this) }
+    private lateinit var etSearch: EditText
+    private lateinit var searchDialog: AlertDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentShowPostsBinding.bind(view)
-        binding.toolbar.title = getString(R.string.app_name)
+        binding.toolbar.apply {
+            title = getString(R.string.app_name)
+            this.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.item_search -> {
+                        searchDialog.show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+
+        setupSearchDialog()
         binding.rvPosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@ShowPostsFragment.adapter
@@ -75,5 +93,24 @@ class ShowPostsFragment : Fragment(R.layout.fragment_show_posts), PostClickListe
     override fun onPostClicked(post: Post) {
         requireView().findNavController()
             .navigate(ShowPostsFragmentDirections.actionShowPostsFragmentToPostDetailsFragment(post))
+    }
+
+    private fun setupSearchDialog() {
+        val searchView = LayoutInflater.from(requireContext()).inflate(R.layout.item_search_dialog, binding.root, false)
+        etSearch = searchView.findViewById(R.id.et_search)
+        searchDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.search)
+            .setView(searchView)
+            .setPositiveButton("Search") { _, _ ->
+                viewModel.performSearch(etSearch.text.toString())
+            }
+            .setNegativeButton(android.R.string.cancel) { d, _ ->
+                d.dismiss()
+            }
+            .setNeutralButton("Clear Results") { _, _ ->
+                etSearch.setText("")
+                viewModel.fetchPosts()
+            }
+            .create()
     }
 }
